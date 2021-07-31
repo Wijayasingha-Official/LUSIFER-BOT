@@ -1,0 +1,34 @@
+const chalk = require('chalk');
+const {WAConnection, MessageType} = require('@adiwajshing/baileys');
+const fs = require('fs');
+
+async function whatsAsena () {
+    const conn = new WAConnection();
+    conn.version = [2, 2119, 6]
+    conn.logger.level = 'warn';
+
+    conn.on('connecting', async () => {
+        console.log(`${chalk.green.bold('Lusifer')}${chalk.red.bold('New')}
+${chalk.redBright.italic('New and speed version')}
+
+${chalk.green.italic('ℹ️  Connecting to your Whatsapp... Please wait.')}`);
+    });
+    
+
+    conn.on('open', async () => {
+        console.log(
+            chalk.green.bold('Lusifer QR Code: '), 
+            'Lusifer;;;' + Buffer.from(JSON.stringify(conn.base64EncodedAuthInfo())).toString('base64')
+        );
+        await conn.sendMessage(conn.user.jid, 'Lusifer;;;' + Buffer.from(JSON.stringify(conn.base64EncodedAuthInfo())).toString('base64'), MessageType.text );
+        console.log(
+            chalk.redBright.bold('Please Do Not Share This Code With Anyone\n'), 
+            chalk.green.bold('IF YOU CANNOT COPY THE MESSAGE, PLEASE CHECK WHATSAPP. QR CODE SENT TO YOUR OWN NUMBER!')
+        );
+        process.exit(0);
+    });
+
+    await conn.connect();
+}
+
+whatsAsena()
